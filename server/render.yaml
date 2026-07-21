@@ -1,0 +1,16 @@
+# Optional Render blueprint. You can either use this file (Render -> New ->
+# Blueprint) or configure the same settings manually in the dashboard.
+services:
+  - type: web
+    name: wealthpilot-api
+    runtime: node
+    rootDir: server
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_KEY
+        sync: false
+      - key: CLIENT_URL
+        sync: false
