@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 
 import profileRoutes from "./routes/profile.js";
 import expenseRoutes from "./routes/expenses.js";
+import incomeRoutes from "./routes/income.js";
 import goalRoutes from "./routes/goals.js";
 
 dotenv.config();
@@ -29,6 +30,7 @@ app.get("/", (req, res) => {
 // Feature routes.
 app.use("/api/profile", profileRoutes);
 app.use("/api/expenses", expenseRoutes);
+app.use("/api/income", incomeRoutes);
 app.use("/api/goals", goalRoutes);
 
 app.listen(PORT, () => {

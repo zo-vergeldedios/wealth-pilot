@@ -15,3 +15,15 @@ export const EXPENSE_CATEGORIES = [
   "Healthcare",
   "Other",
 ];
+
+// The fixed set of sources an income entry can belong to. Same pattern as
+// EXPENSE_CATEGORIES: one server-side source of truth shared by validation
+// and the frontend dropdowns.
+export const INCOME_CATEGORIES = [
+  "Salary",
+  "Freelance",
+  "Investment",
+  "Business",
+  "Gift",
+  "Other",
+];

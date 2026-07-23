@@ -8,12 +8,18 @@ import {
 } from "recharts";
 import { CATEGORY_COLORS, formatCurrency } from "../utils/format.js";
 
-// Donut chart showing each category's share of total spending.
+// Donut chart showing each category's share of a total.
 // `data` is an array of { category, amount }.
+// `colors` maps a category to its hue (defaults to the expense palette).
+// `emptyNote` is the message shown when there's nothing to chart.
 // A legend labels every slice, so slices are identified by text, not color alone.
-export default function CategoryPie({ data }) {
+export default function CategoryPie({
+  data,
+  colors = CATEGORY_COLORS,
+  emptyNote = "No spending to break down yet.",
+}) {
   if (!data || data.length === 0) {
-    return <p className="empty-note">No spending to break down yet.</p>;
+    return <p className="empty-note">{emptyNote}</p>;
   }
 
   return (
@@ -26,20 +32,20 @@ export default function CategoryPie({ data }) {
           innerRadius={60}
           outerRadius={100}
           paddingAngle={2}
-          stroke="#fcfcfb"
+          stroke="#26282a"
           strokeWidth={2}
         >
           {data.map((entry) => (
             <Cell
               key={entry.category}
-              fill={CATEGORY_COLORS[entry.category] || "#898781"}
+              fill={colors[entry.category] || "#8a8d86"}
             />
           ))}
         </Pie>
         <Tooltip formatter={(value) => formatCurrency(value)} />
         <Legend
           iconType="circle"
-          wrapperStyle={{ fontSize: 13, color: "#52514e" }}
+          wrapperStyle={{ fontSize: 13, color: "#c2c4be" }}
         />
       </PieChart>
     </ResponsiveContainer>

@@ -36,6 +36,15 @@ export const updateExpense = (id, expense) =>
 export const deleteExpense = (id) =>
   request(`/api/expenses/${id}`, { method: "DELETE" });
 
+// ---- Income ----
+export const getIncome = () => request("/api/income");
+export const createIncome = (income) =>
+  request("/api/income", { method: "POST", body: JSON.stringify(income) });
+export const updateIncome = (id, income) =>
+  request(`/api/income/${id}`, { method: "PUT", body: JSON.stringify(income) });
+export const deleteIncome = (id) =>
+  request(`/api/income/${id}`, { method: "DELETE" });
+
 // ---- Goals ----
 export const getGoals = () => request("/api/goals");
 export const createGoal = (goal) =>

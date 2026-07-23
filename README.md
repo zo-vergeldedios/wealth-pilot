@@ -18,9 +18,12 @@ design, a REST API, full CRUD, data visualization, and cloud deployment.
 ## Features
 
 - **Dashboard** — summary cards (net worth, income, expenses, savings rate,
-  investments, debt), a spending chart, and recent transactions.
+  investments, debt), a spending chart, and recent transactions. Monthly income
+  and the savings rate are driven by the income you log.
 - **Expense tracker** — full CRUD, a spending-breakdown donut chart, and a
   transactions table.
+- **Income tracker** — full CRUD, an income-by-source donut chart, and an
+  entries table; new income flows straight through to the dashboard.
 - **Financial goals** — create goals, track progress with completion bars, and
   update or delete them.
 
@@ -36,7 +39,7 @@ wealthpilot/
 ├── client/                 # React frontend
 │   └── src/
 │       ├── components/      # Reusable UI (cards, charts, forms, table, modal)
-│       ├── pages/           # Dashboard, Expenses, Goals
+│       ├── pages/           # Dashboard, Expenses, Income, Goals
 │       ├── services/        # api.js — all fetch calls in one place
 │       ├── utils/           # formatting + shared constants
 │       ├── styles/          # global.css
@@ -92,6 +95,10 @@ Base URL: `/api`
 | POST   | `/expenses`      | Create an expense         |
 | PUT    | `/expenses/:id`  | Update an expense         |
 | DELETE | `/expenses/:id`  | Delete an expense         |
+| GET    | `/income`        | List income               |
+| POST   | `/income`        | Create an income entry    |
+| PUT    | `/income/:id`    | Update an income entry    |
+| DELETE | `/income/:id`    | Delete an income entry    |
 | GET    | `/goals`         | List goals                |
 | POST   | `/goals`         | Create a goal             |
 | PUT    | `/goals/:id`     | Update a goal             |

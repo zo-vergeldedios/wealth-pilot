@@ -5,23 +5,24 @@
    ============================================================ */
 
 :root {
-  /* Surfaces & ink (colorblind-safe, WCAG-checked palette) */
-  --page: #f9f9f7;
-  --surface: #fcfcfb;
-  --text-primary: #0b0b0b;
-  --text-secondary: #52514e;
-  --text-muted: #898781;
-  --border: rgba(11, 11, 11, 0.1);
-  --gridline: #e1e0d9;
+  /* Dark-gray surfaces, green accents, and a hint of white for text. */
+  --page: #16181a;
+  --surface: #202325;
+  --field: #2b2e30;
+  --text-primary: #f2f4f0;
+  --text-secondary: #c2c4be;
+  --text-muted: #8a8d86;
+  --border: rgba(255, 255, 255, 0.1);
+  --gridline: #34373a;
 
-  /* Brand + status accents */
-  --brand: #2a78d6;
-  --brand-dark: #1c5cab;
-  --positive: #006300;
-  --negative: #d03b3b;
+  /* Brand + status accents (green-led) */
+  --brand: #33b074;
+  --brand-dark: #2a935f;
+  --positive: #4ec38a;
+  --negative: #e0655f;
 
   --radius: 12px;
-  --shadow: 0 1px 3px rgba(11, 11, 11, 0.06), 0 1px 2px rgba(11, 11, 11, 0.04);
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
   --font: system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
@@ -233,6 +234,11 @@ h3 {
   font-weight: 600;
 }
 
+/* Income amounts read as money coming in. */
+.amount-positive {
+  color: var(--positive);
+}
+
 .category-badge {
   display: inline-flex;
   align-items: center;
@@ -272,7 +278,7 @@ h3 {
   border: 1px solid var(--border);
 }
 .btn-secondary:hover {
-  background: #efeeea;
+  background: var(--field);
 }
 
 .btn-link {
@@ -316,7 +322,13 @@ h3 {
   font-size: 14px;
   font-family: inherit;
   color: var(--text-primary);
-  background: #fff;
+  background: var(--field);
+}
+
+/* Show the native date-picker icon on the dark input background. */
+.form-field input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: 0.6;
 }
 
 .form-field input:focus,
@@ -343,7 +355,7 @@ h3 {
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(11, 11, 11, 0.4);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -356,7 +368,7 @@ h3 {
   border-radius: var(--radius);
   width: 100%;
   max-width: 420px;
-  box-shadow: 0 12px 32px rgba(11, 11, 11, 0.18);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
 }
 
 .modal-header {

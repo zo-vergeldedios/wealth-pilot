@@ -37,6 +37,24 @@ create index if not exists expenses_user_date_idx
   on expenses (user_id, date desc);
 
 -- ------------------------------------------------------------
+-- income: every incoming payment the user logs (salary, freelance, etc).
+-- Mirrors the expenses table so both features stay consistent.
+-- ------------------------------------------------------------
+create table if not exists income (
+  id         uuid primary key default gen_random_uuid(),
+  user_id    uuid not null,
+  source     text not null,
+  amount     numeric(12, 2) not null,
+  category   text not null,
+  date       date not null,
+  created_at timestamptz not null default now()
+);
+
+-- Speeds up the common "all income for this user, newest first" query.
+create index if not exists income_user_date_idx
+  on income (user_id, date desc);
+
+-- ------------------------------------------------------------
 -- financial_goals: savings targets the user is working toward.
 -- ------------------------------------------------------------
 create table if not exists financial_goals (

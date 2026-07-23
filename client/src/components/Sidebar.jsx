@@ -17,6 +17,9 @@ export default function Sidebar() {
         <NavLink to="/expenses" className="nav-link">
           Expenses
         </NavLink>
+        <NavLink to="/income" className="nav-link">
+          Income
+        </NavLink>
         <NavLink to="/goals" className="nav-link">
           Goals
         </NavLink>

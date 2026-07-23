@@ -22,28 +22,28 @@ export default function SpendingChart({ data }) {
   return (
     <ResponsiveContainer width="100%" height={280}>
       <BarChart data={data} margin={{ top: 8, right: 8, bottom: 4, left: 8 }}>
-        <CartesianGrid vertical={false} stroke="#e1e0d9" />
+        <CartesianGrid vertical={false} stroke="#34373a" />
         <XAxis
           dataKey="category"
-          tick={{ fill: "#52514e", fontSize: 12 }}
+          tick={{ fill: "#c2c4be", fontSize: 12 }}
           tickLine={false}
-          axisLine={{ stroke: "#c3c2b7" }}
+          axisLine={{ stroke: "#4a4d47" }}
         />
         <YAxis
-          tick={{ fill: "#898781", fontSize: 12 }}
+          tick={{ fill: "#8a8d86", fontSize: 12 }}
           tickLine={false}
           axisLine={false}
           tickFormatter={(value) => `$${value}`}
         />
         <Tooltip
           formatter={(value) => [formatCurrency(value), "Spent"]}
-          cursor={{ fill: "rgba(11,11,11,0.04)" }}
+          cursor={{ fill: "rgba(255,255,255,0.06)" }}
         />
         <Bar dataKey="amount" radius={[4, 4, 0, 0]} maxBarSize={64}>
           {data.map((entry) => (
             <Cell
               key={entry.category}
-              fill={CATEGORY_COLORS[entry.category] || "#898781"}
+              fill={CATEGORY_COLORS[entry.category] || "#8a8d86"}
             />
           ))}
         </Bar>

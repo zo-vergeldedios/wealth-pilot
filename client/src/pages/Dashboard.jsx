@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getProfile, getExpenses } from "../services/api.js";
+import { getProfile, getExpenses, getIncome } from "../services/api.js";
 import {
   formatCurrency,
   CATEGORIES,
@@ -7,6 +7,7 @@ import {
 import SummaryCard from "../components/SummaryCard.jsx";
 import SpendingChart from "../components/SpendingChart.jsx";
 import ExpenseTable from "../components/ExpenseTable.jsx";
+import IncomeTable from "../components/IncomeTable.jsx";
 
 // Returns true if a YYYY-MM-DD date falls in the current calendar month.
 function isThisMonth(dateStr) {
@@ -36,19 +37,22 @@ function spendingByCategory(expenses) {
 export default function Dashboard() {
   const [profile, setProfile] = useState(null);
   const [expenses, setExpenses] = useState([]);
+  const [income, setIncome] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
     async function load() {
       try {
-        // Load profile and expenses together.
-        const [profileData, expenseData] = await Promise.all([
+        // Load profile, expenses and income together.
+        const [profileData, expenseData, incomeData] = await Promise.all([
           getProfile(),
           getExpenses(),
+          getIncome(),
         ]);
         setProfile(profileData);
         setExpenses(expenseData);
+        setIncome(incomeData);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -66,12 +70,20 @@ export default function Dashboard() {
     .filter((e) => isThisMonth(e.date))
     .reduce((sum, e) => sum + Number(e.amount), 0);
 
-  const income = Number(profile.income) || 0;
+  // Monthly income is the sum of this month's logged income entries, so the
+  // dashboard updates the moment income is added on the Income tab.
+  const monthlyIncome = income
+    .filter((i) => isThisMonth(i.date))
+    .reduce((sum, i) => sum + Number(i.amount), 0);
+
   const savingsRate =
-    income > 0 ? Math.round(((income - monthlyExpenses) / income) * 100) : 0;
+    monthlyIncome > 0
+      ? Math.round(((monthlyIncome - monthlyExpenses) / monthlyIncome) * 100)
+      : 0;
 
   const chartData = spendingByCategory(expenses);
   const recentExpenses = expenses.slice(0, 5);
+  const recentIncome = income.slice(0, 5);
 
   return (
     <div className="page">
@@ -84,7 +96,7 @@ export default function Dashboard() {
         <SummaryCard label="Net Worth" value={formatCurrency(profile.net_worth)} />
         <SummaryCard
           label="Monthly Income"
-          value={formatCurrency(income)}
+          value={formatCurrency(monthlyIncome)}
           accent="positive"
         />
         <SummaryCard
@@ -111,6 +123,11 @@ export default function Dashboard() {
       <section className="card">
         <h2 className="card-title">Recent expenses</h2>
         <ExpenseTable expenses={recentExpenses} />
+      </section>
+
+      <section className="card">
+        <h2 className="card-title">Recent income</h2>
+        <IncomeTable income={recentIncome} />
       </section>
     </div>
   );

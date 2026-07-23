@@ -15,12 +15,34 @@ export const CATEGORIES = [
 // fixed order, never cycled) — identity is also reinforced by axis labels and
 // legends, so color is never the only signal.
 export const CATEGORY_COLORS = {
-  Housing: "#2a78d6", // blue
-  Food: "#eb6834", // orange
-  Transportation: "#1baf7a", // aqua
-  Entertainment: "#eda100", // yellow
-  Healthcare: "#e87ba4", // magenta
-  Other: "#008300", // green
+  Housing: "#4a9fe8", // blue
+  Food: "#f0803c", // orange
+  Transportation: "#2fc79a", // aqua
+  Entertainment: "#f2b53c", // yellow
+  Healthcare: "#ef92b6", // magenta
+  Other: "#8a8d86", // gray
+};
+
+// The income sources, mirrored from the server. Used to populate dropdowns.
+export const INCOME_CATEGORIES = [
+  "Salary",
+  "Freelance",
+  "Investment",
+  "Business",
+  "Gift",
+  "Other",
+];
+
+// A green-leaning palette for income, keeping the dashboard's green identity.
+// Like CATEGORY_COLORS these are assigned in fixed order and reinforced by
+// labels/legends, so color is never the only signal.
+export const INCOME_CATEGORY_COLORS = {
+  Salary: "#33b074", // brand green
+  Freelance: "#4ec3a0", // teal
+  Investment: "#7bc86c", // light green
+  Business: "#2a9d8f", // deep teal
+  Gift: "#a3d977", // lime
+  Other: "#8a8d86", // gray
 };
 
 // Format a number as US dollars, e.g. 125000 -> "$125,000".

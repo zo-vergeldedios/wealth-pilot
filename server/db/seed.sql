@@ -9,6 +9,7 @@
 
 -- Start clean so this script can be re-run safely.
 delete from expenses        where user_id = '11111111-1111-1111-1111-111111111111';
+delete from income          where user_id = '11111111-1111-1111-1111-111111111111';
 delete from financial_goals where user_id = '11111111-1111-1111-1111-111111111111';
 delete from profiles        where user_id = '11111111-1111-1111-1111-111111111111';
 
@@ -37,6 +38,17 @@ insert into expenses (user_id, name, amount, category, date) values
   ('11111111-1111-1111-1111-111111111111', 'Gym membership',        55, 'Healthcare',     current_date - 11),
   ('11111111-1111-1111-1111-111111111111', 'Phone bill',            70, 'Other',          current_date - 13),
   ('11111111-1111-1111-1111-111111111111', 'Gift',                  90, 'Other',          current_date - 15);
+
+-- ------------------------------------------------------------
+-- Income (dated relative to today so "this month" always has data).
+-- Totals ~$7,000 for the current month to match the dashboard.
+-- ------------------------------------------------------------
+insert into income (user_id, source, amount, category, date) values
+  ('11111111-1111-1111-1111-111111111111', 'Monthly salary',      5200, 'Salary',     current_date - 1),
+  ('11111111-1111-1111-1111-111111111111', 'Freelance project',   1200, 'Freelance',  current_date - 4),
+  ('11111111-1111-1111-1111-111111111111', 'Dividend payout',      350, 'Investment', current_date - 6),
+  ('11111111-1111-1111-1111-111111111111', 'Side store sales',     250, 'Business',   current_date - 9),
+  ('11111111-1111-1111-1111-111111111111', 'Birthday gift',        100, 'Gift',       current_date - 12);
 
 -- ------------------------------------------------------------
 -- Financial goals
