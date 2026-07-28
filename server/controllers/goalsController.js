@@ -1,5 +1,4 @@
 import { supabase } from "../config/supabase.js";
-import { DEMO_USER_ID } from "../config/constants.js";
 
 // Validate the fields a goal needs. Returns an error string or null.
 function validateGoal({ name, target_amount, current_amount }) {
@@ -17,7 +16,7 @@ export async function getGoals(req, res) {
     const { data, error } = await supabase
       .from("financial_goals")
       .select("*")
-      .eq("user_id", DEMO_USER_ID)
+      .eq("user_id", req.user.id) // only this user's rows
       .order("created_at", { ascending: true });
 
     if (error) throw error;
@@ -40,7 +39,7 @@ export async function createGoal(req, res) {
     const { data, error } = await supabase
       .from("financial_goals")
       .insert({
-        user_id: DEMO_USER_ID,
+        user_id: req.user.id, // owner is taken from the token, never the body
         name,
         target_amount: Number(target_amount),
         current_amount: Number(current_amount) || 0,
@@ -74,7 +73,7 @@ export async function updateGoal(req, res) {
         current_amount: Number(current_amount) || 0,
       })
       .eq("id", id)
-      .eq("user_id", DEMO_USER_ID)
+      .eq("user_id", req.user.id) // never let one user edit another's row
       .select()
       .single();
 
@@ -97,7 +96,7 @@ export async function deleteGoal(req, res) {
       .from("financial_goals")
       .delete()
       .eq("id", id)
-      .eq("user_id", DEMO_USER_ID);
+      .eq("user_id", req.user.id); // scope the delete to this user's row
 
     if (error) throw error;
 

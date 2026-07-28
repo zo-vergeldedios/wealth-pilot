@@ -14,6 +14,20 @@ delete from financial_goals where user_id = '11111111-1111-1111-1111-11111111111
 delete from profiles        where user_id = '11111111-1111-1111-1111-111111111111';
 
 -- ------------------------------------------------------------
+-- Demo user
+-- Reviewers can log in with the username "demo" (no password) to see all of
+-- the seeded data below. The token is fixed here only so the demo account is
+-- stable across re-seeds; real signups get a random token from the database.
+-- ------------------------------------------------------------
+insert into users (id, username, user_token)
+values (
+  '11111111-1111-1111-1111-111111111111',
+  'demo',
+  '22222222-2222-2222-2222-222222222222'
+)
+on conflict (id) do nothing;
+
+-- ------------------------------------------------------------
 -- Profile
 -- ------------------------------------------------------------
 insert into profiles (user_id, income, net_worth, investments, debt)

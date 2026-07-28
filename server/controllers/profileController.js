@@ -1,14 +1,13 @@
 import { supabase } from "../config/supabase.js";
-import { DEMO_USER_ID } from "../config/constants.js";
 
 // GET /api/profile
-// Returns the single profile row for the demo user.
+// Returns the single profile row for the current user.
 export async function getProfile(req, res) {
   try {
     const { data, error } = await supabase
       .from("profiles")
       .select("*")
-      .eq("user_id", DEMO_USER_ID)
+      .eq("user_id", req.user.id)
       .single();
 
     if (error) throw error;
@@ -21,7 +20,7 @@ export async function getProfile(req, res) {
 }
 
 // PUT /api/profile
-// Updates the demo user's financial figures.
+// Updates the current user's financial figures.
 export async function updateProfile(req, res) {
   try {
     const { income, net_worth, investments, debt } = req.body;
@@ -32,7 +31,7 @@ export async function updateProfile(req, res) {
     const { data, error } = await supabase
       .from("profiles")
       .update(updates)
-      .eq("user_id", DEMO_USER_ID)
+      .eq("user_id", req.user.id)
       .select()
       .single();
 

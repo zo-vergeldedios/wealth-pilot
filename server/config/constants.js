@@ -1,8 +1,9 @@
 // Central place for shared constants.
 
-// This MVP uses a single demo user instead of full authentication.
-// Every row is tied to this fixed id. Swapping in real auth later just means
-// replacing this constant with the id from the logged-in user's session.
+// The app now identifies users from their session token (see
+// middleware/auth.js), so controllers read the owner from req.user.id.
+// This fixed id is kept only for the pre-seeded "demo" account in
+// db/seed.sql, so reviewers can log in as "demo" and see populated data.
 export const DEMO_USER_ID = "11111111-1111-1111-1111-111111111111";
 
 // The fixed set of categories an expense can belong to. Keeping this on the

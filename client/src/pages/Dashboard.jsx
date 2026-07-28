@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import { getProfile, getExpenses, getIncome } from "../services/api.js";
-import {
-  formatCurrency,
-  CATEGORIES,
-} from "../utils/format.js";
+import { formatCurrency, CATEGORIES } from "../utils/format.js";
 import SummaryCard from "../components/SummaryCard.jsx";
 import SpendingChart from "../components/SpendingChart.jsx";
 import ExpenseTable from "../components/ExpenseTable.jsx";
@@ -93,7 +90,10 @@ export default function Dashboard() {
       </header>
 
       <section className="summary-grid">
-        <SummaryCard label="Net Worth" value={formatCurrency(profile.net_worth)} />
+        <SummaryCard
+          label="Net Worth"
+          value={formatCurrency(profile.net_worth)}
+        />
         <SummaryCard
           label="Monthly Income"
           value={formatCurrency(monthlyIncome)}
@@ -103,7 +103,11 @@ export default function Dashboard() {
           label="Monthly Expenses"
           value={formatCurrency(monthlyExpenses)}
         />
-        <SummaryCard label="Savings Rate" value={`${savingsRate}%`} accent="positive" />
+        <SummaryCard
+          label="Savings Rate"
+          value={`${savingsRate}%`}
+          accent="positive"
+        />
         <SummaryCard
           label="Investments"
           value={formatCurrency(profile.investments)}

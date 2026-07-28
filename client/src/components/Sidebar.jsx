@@ -1,8 +1,18 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext.jsx";
 
 // Left-hand navigation. NavLink automatically adds the "active" class
 // to the link matching the current route.
 export default function Sidebar() {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  // Clear the session, then send the user to the login page.
+  function handleLogout() {
+    logout();
+    navigate("/login");
+  }
+
   return (
     <aside className="sidebar">
       <div className="sidebar-brand">
@@ -25,7 +35,16 @@ export default function Sidebar() {
         </NavLink>
       </nav>
 
-      <div className="sidebar-footer">Demo account</div>
+      {/* Shows who is signed in and lets them log out. */}
+      <div className="sidebar-footer">
+        <div className="sidebar-user">
+          <span className="sidebar-user-label">Signed in as</span>
+          <span className="sidebar-user-name">{user?.username}</span>
+        </div>
+        <button className="btn btn-secondary sidebar-logout" onClick={handleLogout}>
+          Log out
+        </button>
+      </div>
     </aside>
   );
 }

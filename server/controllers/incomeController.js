@@ -1,5 +1,5 @@
 import { supabase } from "../config/supabase.js";
-import { DEMO_USER_ID, INCOME_CATEGORIES } from "../config/constants.js";
+import { INCOME_CATEGORIES } from "../config/constants.js";
 
 // Small helper to validate the fields an income entry needs.
 // Returns an error message string, or null if everything is valid.
@@ -14,13 +14,13 @@ function validateIncome({ source, amount, category, date }) {
 }
 
 // GET /api/income
-// All income entries for the demo user, newest first.
+// All income entries for the current user, newest first.
 export async function getIncome(req, res) {
   try {
     const { data, error } = await supabase
       .from("income")
       .select("*")
-      .eq("user_id", DEMO_USER_ID)
+      .eq("user_id", req.user.id) // only this user's rows
       .order("date", { ascending: false });
 
     if (error) throw error;
@@ -43,7 +43,7 @@ export async function createIncome(req, res) {
     const { data, error } = await supabase
       .from("income")
       .insert({
-        user_id: DEMO_USER_ID,
+        user_id: req.user.id, // owner is taken from the token, never the body
         source,
         amount: Number(amount),
         category,
@@ -74,7 +74,7 @@ export async function updateIncome(req, res) {
       .from("income")
       .update({ source, amount: Number(amount), category, date })
       .eq("id", id)
-      .eq("user_id", DEMO_USER_ID) // never let one user edit another's row
+      .eq("user_id", req.user.id) // never let one user edit another's row
       .select()
       .single();
 
@@ -97,7 +97,7 @@ export async function deleteIncome(req, res) {
       .from("income")
       .delete()
       .eq("id", id)
-      .eq("user_id", DEMO_USER_ID);
+      .eq("user_id", req.user.id); // scope the delete to this user's row
 
     if (error) throw error;
 

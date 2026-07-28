@@ -1,12 +1,22 @@
 // A thin wrapper around fetch so every component talks to the API the same way.
 // One place to change the base URL, headers, or error handling.
 
+import { getToken } from "./auth.js";
+
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
 // Core request helper. Throws on a non-2xx response so callers can catch it.
 async function request(path, options = {}) {
+  // Attach the user's token so the API knows who is asking. The server maps
+  // this token back to a user and returns only that user's data — the browser
+  // never sends a user_id itself.
+  const token = getToken();
+
   const res = await fetch(`${API_URL}${path}`, {
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
     ...options,
   });
 
@@ -32,7 +42,10 @@ export const getExpenses = () => request("/api/expenses");
 export const createExpense = (expense) =>
   request("/api/expenses", { method: "POST", body: JSON.stringify(expense) });
 export const updateExpense = (id, expense) =>
-  request(`/api/expenses/${id}`, { method: "PUT", body: JSON.stringify(expense) });
+  request(`/api/expenses/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(expense),
+  });
 export const deleteExpense = (id) =>
   request(`/api/expenses/${id}`, { method: "DELETE" });
 

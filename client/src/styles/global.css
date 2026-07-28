@@ -51,9 +51,13 @@ h3 {
 }
 
 .app-content {
+  /* Fill all the space left of the sidebar. No max-width cap, so the app uses
+     the full viewport width instead of sitting in a narrow column. min-width:0
+     lets wide tables/charts shrink inside the flex row rather than overflowing.
+     A large gutter on very wide screens keeps content from stretching awkwardly. */
   flex: 1;
-  padding: 32px 40px;
-  max-width: 1100px;
+  min-width: 0;
+  padding: 32px clamp(24px, 4vw, 64px);
 }
 
 /* ---------- Sidebar ---------- */
@@ -112,6 +116,30 @@ h3 {
   padding: 12px;
   font-size: 13px;
   color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sidebar-user {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sidebar-user-label {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.sidebar-user-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.sidebar-logout {
+  width: 100%;
 }
 
 /* ---------- Page header ---------- */
@@ -512,15 +540,26 @@ h3 {
     padding: 12px 8px;
   }
 
-  /* The footer note is redundant on the compact bar. */
+  /* On the compact top bar, put the user info and logout on one row. */
   .sidebar-footer {
-    display: none;
+    margin-top: 8px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 4px 0;
+  }
+  .sidebar-user {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 6px;
+  }
+  .sidebar-logout {
+    width: auto;
   }
 
   /* Content uses the full width with smaller gutters. */
   .app-content {
     padding: 20px 16px;
-    max-width: none;
   }
 
   .page-header h1 {
@@ -563,4 +602,66 @@ h3 {
   .goal-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* ---------- Auth pages (login / signup) ---------- */
+/* Centered card on an empty page — shown before the user has a session,
+   so there is no sidebar or app shell around it. */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 380px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  box-shadow: var(--shadow);
+}
+
+.auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.auth-title {
+  font-size: 22px;
+  margin-bottom: 6px;
+}
+
+.auth-subtitle {
+  margin: 0 0 24px;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.auth-submit {
+  width: 100%;
+  margin-top: 4px;
+}
+
+.auth-switch {
+  margin: 20px 0 0;
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.auth-switch a {
+  color: var(--brand);
+  font-weight: 600;
+  text-decoration: none;
+}
+.auth-switch a:hover {
+  text-decoration: underline;
 }
